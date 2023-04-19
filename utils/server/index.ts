@@ -1,7 +1,7 @@
 import { Message } from '@/types/chat';
 import { OpenAIModel } from '@/types/openai';
 
-import { AZURE_DEPLOYMENT_ID, OPENAI_API_HOST, OPENAI_API_TYPE, OPENAI_API_VERSION, OPENAI_ORGANIZATION } from '../app/const';
+import { AZURE_DEPLOYMENT_ID, DALLE_API_URL, OPENAI_API_HOST, OPENAI_API_TYPE, OPENAI_API_VERSION, OPENAI_ORGANIZATION } from '../app/const';
 
 import {
   ParsedEvent,
@@ -23,12 +23,41 @@ export class OpenAIError extends Error {
   }
 }
 
+export const createImage = async (prompt: string, key?: string): Promise<{ data: Array<{ url: string }> }> => {
+  const apiKey = key ? key : process.env.OPENAI_API_KEY;
+
+  if (!apiKey) {
+    throw new Error('API key is not set.');
+  }
+
+  const response = await fetch(DALLE_API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      prompt,
+      num_images: 1,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(`DALL-E API error: ${errorData.message || response.statusText}`);
+  }
+
+  const responseData = await response.json();
+  return responseData;
+};
+
+
 export const OpenAIStream = async (
   model: OpenAIModel,
   systemPrompt: string,
   temperature : number,
   key: string,
-  messages: Message[],
+  messages: Message[]
 ) => {
   let url = `${OPENAI_API_HOST}/v1/chat/completions`;
   if (OPENAI_API_TYPE === 'azure') {

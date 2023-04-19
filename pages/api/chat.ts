@@ -1,5 +1,5 @@
 import { DEFAULT_SYSTEM_PROMPT, DEFAULT_TEMPERATURE } from '@/utils/app/const';
-import { OpenAIError, OpenAIStream } from '@/utils/server';
+import { OpenAIError, OpenAIStream, createImage } from '@/utils/server';
 
 import { ChatBody, Message } from '@/types/chat';
 
@@ -15,8 +15,10 @@ export const config = {
 
 const handler = async (req: Request): Promise<Response> => {
   try {
-    const { model, messages, key, prompt, temperature } = (await req.json()) as ChatBody;
+    const { model, messages, key, prompt, temperature, generateImage } = (await req.json()) as ChatBody;
 
+    console.log('model', model);
+    
     await init((imports) => WebAssembly.instantiate(wasm, imports));
     const encoding = new Tiktoken(
       tiktokenModel.bpe_ranks,
@@ -33,6 +35,25 @@ const handler = async (req: Request): Promise<Response> => {
     if (temperatureToUse == null) {
       temperatureToUse = DEFAULT_TEMPERATURE;
     }
+
+    console.log('generateImage', generateImage);
+
+    // Fetch the image URL when the imagePrompt field is provided
+    let imageUrl: string | null = null;
+    if (generateImage) {
+      const imagePrompt = messages[messages.length - 1].content;
+
+      const data = await createImage(imagePrompt, key);
+      console.log('data', data);
+      imageUrl = data.data[0].url;
+
+      console.log('imageUrl', imageUrl);
+      console.log('messages', messages);
+
+      return new Response(imageUrl);
+    }
+
+
 
     const prompt_tokens = encoding.encode(promptToSend);
 
