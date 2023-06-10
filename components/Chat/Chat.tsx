@@ -477,13 +477,13 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                     <IconClearAll size={18} />
                   </button>
                 </div>
-                {/*{showSettings && (*/}
-                {/*  <div className="flex flex-col space-y-10 md:mx-auto md:max-w-xl md:gap-6 md:py-3 md:pt-6 lg:max-w-2xl lg:px-0 xl:max-w-3xl">*/}
-                {/*    <div className="flex h-full flex-col space-y-4 border-b border-neutral-200 p-4 dark:border-neutral-600 md:rounded-lg md:border">*/}
-                {/*      <ModelSelect />*/}
-                {/*    </div>*/}
-                {/*  </div>*/}
-                {/*)}*/}
+                {showSettings && (
+                  <div className="flex flex-col space-y-10 md:mx-auto md:max-w-xl md:gap-6 md:py-3 md:pt-6 lg:max-w-2xl lg:px-0 xl:max-w-3xl">
+                    <div className="flex h-full flex-col space-y-4 border-b border-neutral-200 p-4 dark:border-neutral-600 md:rounded-lg md:border">
+                      <ModelSelect />
+                    </div>
+                  </div>
+                )}
 
                 {selectedConversation?.messages.map((message, index) => (
                   <MemoizedChatMessage
