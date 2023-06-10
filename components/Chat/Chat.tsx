@@ -417,59 +417,59 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                         <Spinner size="16px" className="mx-auto" />
                       </div>
                     ) : (
-                      'Chatbot UI'
+                      '1Chat'
                     )}
                   </div>
 
-                  {models.length > 0 && (
-                    <div className="flex h-full flex-col space-y-4 rounded-lg border border-neutral-200 p-4 dark:border-neutral-600">
-                      <ModelSelect />
+                  {/*{models.length > 0 && (*/}
+                  {/*  <div className="flex h-full flex-col space-y-4 rounded-lg border border-neutral-200 p-4 dark:border-neutral-600">*/}
+                      {/*<ModelSelect />*/}
 
-                      <SystemPrompt
-                        conversation={selectedConversation}
-                        prompts={prompts}
-                        onChangePrompt={(prompt) =>
-                          handleUpdateConversation(selectedConversation, {
-                            key: 'prompt',
-                            value: prompt,
-                          })
-                        }
-                      />
+                      {/*<SystemPrompt*/}
+                      {/*  conversation={selectedConversation}*/}
+                      {/*  prompts={prompts}*/}
+                      {/*  onChangePrompt={(prompt) =>*/}
+                      {/*    handleUpdateConversation(selectedConversation, {*/}
+                      {/*      key: 'prompt',*/}
+                      {/*      value: prompt,*/}
+                      {/*    })*/}
+                      {/*  }*/}
+                      {/*/>*/}
 
-                      <TemperatureSlider
-                        label={t('Temperature')}
-                        onChangeTemperature={(temperature) =>
-                          handleUpdateConversation(selectedConversation, {
-                            key: 'temperature',
-                            value: temperature,
-                          })
-                        }
-                      />
+                      {/*<TemperatureSlider*/}
+                      {/*  label={t('Temperature')}*/}
+                      {/*  onChangeTemperature={(temperature) =>*/}
+                      {/*    handleUpdateConversation(selectedConversation, {*/}
+                      {/*      key: 'temperature',*/}
+                      {/*      value: temperature,*/}
+                      {/*    })*/}
+                      {/*  }*/}
+                      {/*/>*/}
 
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          className="form-checkbox"
-                          checked={generateImage}
-                          onChange={(e) => setGenerateImage(e.target.checked)}
-                        />
-                        <span className="ml-2">Generate Image</span>
-                      </div>
-                    </div>
-                  )}
+                      {/*<div className="flex items-center">*/}
+                      {/*  <input*/}
+                      {/*    type="checkbox"*/}
+                      {/*    className="form-checkbox"*/}
+                      {/*    checked={generateImage}*/}
+                      {/*    onChange={(e) => setGenerateImage(e.target.checked)}*/}
+                      {/*  />*/}
+                      {/*  <span className="ml-2">Generate Image</span>*/}
+                      {/*</div>*/}
+                  {/*  </div>*/}
+                  {/*)}*/}
                 </div>
               </>
             ) : (
               <>
                 <div className="sticky top-0 z-10 flex justify-center border border-b-neutral-300 bg-neutral-100 py-2 text-sm text-neutral-500 dark:border-none dark:bg-[#444654] dark:text-neutral-200">
-                  {t('Model')}: {selectedConversation?.model.name} | {t('Temp')}
-                  : {selectedConversation?.temperature} |
-                  <button
-                    className="ml-2 cursor-pointer hover:opacity-50"
-                    onClick={handleSettings}
-                  >
-                    <IconSettings size={18} />
-                  </button>
+                  {/*{t('Model')}: {selectedConversation?.model.name} | {t('Temp')}*/}
+                  {/*: {selectedConversation?.temperature} |*/}
+                  {/*<button*/}
+                  {/*  className="ml-2 cursor-pointer hover:opacity-50"*/}
+                  {/*  onClick={handleSettings}*/}
+                  {/*>*/}
+                  {/*  <IconSettings size={18} />*/}
+                  {/*</button>*/}
                   <button
                     className="ml-2 cursor-pointer hover:opacity-50"
                     onClick={onClearAll}
@@ -477,29 +477,29 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                     <IconClearAll size={18} />
                   </button>
                 </div>
-                {showSettings && (
-                  <div className="flex flex-col space-y-10 md:mx-auto md:max-w-xl md:gap-6 md:py-3 md:pt-6 lg:max-w-2xl lg:px-0 xl:max-w-3xl">
-                    <div className="flex h-full flex-col space-y-4 border-b border-neutral-200 p-4 dark:border-neutral-600 md:rounded-lg md:border">
-                      <ModelSelect />
-                    </div>
-                  </div>
-                )}
+                {/*{showSettings && (*/}
+                {/*  <div className="flex flex-col space-y-10 md:mx-auto md:max-w-xl md:gap-6 md:py-3 md:pt-6 lg:max-w-2xl lg:px-0 xl:max-w-3xl">*/}
+                {/*    <div className="flex h-full flex-col space-y-4 border-b border-neutral-200 p-4 dark:border-neutral-600 md:rounded-lg md:border">*/}
+                {/*      <ModelSelect />*/}
+                {/*    </div>*/}
+                {/*  </div>*/}
+                {/*)}*/}
 
-                {selectedConversation?.messages.map((message, index) => (
-                  <MemoizedChatMessage
-                    key={index}
-                    message={message}
-                    messageIndex={index}
-                    onEdit={(editedMessage) => {
-                      setCurrentMessage(editedMessage);
-                      // discard edited message and the ones that come after then resend
-                      handleSend(
-                        editedMessage,
-                        selectedConversation?.messages.length - index,
-                      );
-                    }}
-                  />
-                ))}
+                {/*{selectedConversation?.messages.map((message, index) => (*/}
+                {/*  <MemoizedChatMessage*/}
+                {/*    key={index}*/}
+                {/*    message={message}*/}
+                {/*    messageIndex={index}*/}
+                {/*    onEdit={(editedMessage) => {*/}
+                {/*      setCurrentMessage(editedMessage);*/}
+                {/*      // discard edited message and the ones that come after then resend*/}
+                {/*      handleSend(*/}
+                {/*        editedMessage,*/}
+                {/*        selectedConversation?.messages.length - index,*/}
+                {/*      );*/}
+                {/*    }}*/}
+                {/*  />*/}
+                {/*))}*/}
 
                 {loading && <ChatLoader />}
 
