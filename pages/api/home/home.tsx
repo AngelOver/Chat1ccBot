@@ -276,10 +276,13 @@ const Home = ({
     } else if (pluginKeys) {
       dispatch({ field: 'pluginKeys', value: pluginKeys });
     }
-    dispatch({ field: 'showPromptbar', value: false });
+
+    if (true) {
+      dispatch({ field: 'showPromptbar', value: false });
+    }
     if (window.innerWidth < 640) {
       dispatch({ field: 'showChatbar', value: false });
-
+      dispatch({ field: 'showPromptbar', value: false });
     }
 
     const showChatbar = localStorage.getItem('showChatbar');
