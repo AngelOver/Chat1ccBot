@@ -27,13 +27,7 @@ const useApiService = () => {
 
   const getModels = useCallback(
     (params: GetModelsRequestProps, signal?: AbortSignal) => {
-      return fetchService.post<GetModelsRequestProps>(`/api/models`, {
-        body: { key: params.key },
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        signal,
-      });
+      return Promise.resolve([{id: "gpt-3.5-turbo", name: "GPT-3.5"}]);
     },
     [fetchService],
   );
