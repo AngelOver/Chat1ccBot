@@ -1,3 +1,4 @@
+import Cors from "cors";
 import { DEFAULT_SYSTEM_PROMPT, DEFAULT_TEMPERATURE } from '@/utils/app/const';
 import { OpenAIError, OpenAIStream, createImage } from '@/utils/server';
 
@@ -9,12 +10,19 @@ import wasm from '../../node_modules/@dqbd/tiktoken/lite/tiktoken_bg.wasm?module
 import tiktokenModel from '@dqbd/tiktoken/encoders/cl100k_base.json';
 import { Tiktoken, init } from '@dqbd/tiktoken/lite/init';
 
+
 export const config = {
   runtime: 'edge',
 };
 
-const handler = async (req: Request): Promise<Response> => {
+const cors = Cors({
+  methods: ["GET", "POST", "PUT", "DELETE", "HEAD"],
+  origin: "*",
+});
+
+const handler = async (req: Request,res): Promise<Response> => {
   try {
+    await cors(req, res);
     const { model, messages, key, prompt, temperature, generateImage } = (await req.json()) as ChatBody;
 
     console.log('model', model);
