@@ -99,9 +99,16 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
         });
         homeDispatch({ field: 'loading', value: true });
         homeDispatch({ field: 'messageIsStreaming', value: true });
+
+        const maxMessages = 3;//最大消息数量
+
+        const messagesToInclude = updatedConversation.messages.length >= maxMessages
+            ? updatedConversation.messages.slice(-maxMessages)
+            : updatedConversation.messages;
+
         const chatBody: ChatBody = {
           model: updatedConversation.model,
-          messages: updatedConversation.messages,
+          messages: messagesToInclude,
           key: apiKey,
           prompt: updatedConversation.prompt,
           temperature: updatedConversation.temperature,
