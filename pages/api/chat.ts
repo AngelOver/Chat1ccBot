@@ -10,24 +10,30 @@ import tiktokenModel from '@dqbd/tiktoken/encoders/cl100k_base.json';
 import { Tiktoken, init } from '@dqbd/tiktoken/lite/init';
 
 
+export const config = {
+  runtime: 'edge',
+};
+
 
 
 const handler = async (req: Request): Promise<Response> => {
-  console.log('req', req);
-    try {
-  // 如果是 OPTIONS 请求，返回跨域响应头即可
-  if (req.method === 'OPTIONS') {
-    let response = new Response;
+  try {
+    console.log("请求来了")
+    let response = new Response('OK', { status: 200});
     response.headers.set('Access-Control-Allow-Methods', 'GET,POST');
     // 允许跨域访问的 HTTP 头部字段
     response.headers.set('Access-Control-Allow-Headers', '*');
     // 允许所有域名跨域访问
     response.headers.set('Access-Control-Allow-Origin', '*');
-    return  response;
-  }
+
+    // 如果是 OPTIONS 请求，返回跨域响应头即可
+    if (req.method === 'OPTIONS') {
+      console.log("请求OPTIONS")
+      return  response;
+    }
 
 
-  const { model, messages, key, prompt, temperature, generateImage } = (await req.json()) as ChatBody;
+    const { model, messages, key, prompt, temperature, generateImage } = (await req.json()) as ChatBody;
 
     console.log('model', model);
     
