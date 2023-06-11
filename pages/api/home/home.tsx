@@ -364,13 +364,13 @@ const Home = ({
       }}
     >
       <Head>
-        <title>1Chat 国内</title>
+        <title>1Chat.vin 国内免费且最快的智能AI</title>
         <meta name="description" content="ChatGPT but better." />
         <meta
           name="viewport"
           content="height=device-height ,width=device-width, initial-scale=1, user-scalable=no"
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg" />
       </Head>
       {selectedConversation && (
         <main
@@ -390,7 +390,7 @@ const Home = ({
               <Chat stopConversationRef={stopConversationRef} />
             </div>
 
-            <Promptbar />
+            {/*<Promptbar />*/}
           </div>
         </main>
       )}

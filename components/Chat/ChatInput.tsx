@@ -1,7 +1,7 @@
 import {
   IconArrowDown,
   IconBolt,
-  IconBrandGoogle, IconClearAll,
+  IconBrandGoogle, IconTrash,
   IconPlayerStop,
   IconRepeat,
   IconSend,
@@ -258,6 +258,8 @@ export const ChatInput = ({
 
   return (
     <div className="absolute bottom-0 left-0 w-full border-transparent bg-gradient-to-b from-transparent via-white to-white pt-6 dark:border-white/20 dark:via-[#343541] dark:to-[#343541] md:pt-2">
+
+
       <div className="stretch mx-2 mt-4 flex flex-row gap-3 last:mb-2 md:mx-4 md:mt-[52px] md:last:mb-6 lg:mx-auto lg:max-w-3xl">
         {messageIsStreaming && (
           <button
@@ -268,16 +270,16 @@ export const ChatInput = ({
           </button>
         )}
 
-        {!messageIsStreaming &&
-          selectedConversation &&
-          selectedConversation.messages.length > 0 && (
-            <button
-              className="absolute top-0 left-0 right-0 mx-auto mb-3 flex w-fit items-center gap-3 rounded border border-neutral-200 bg-white py-2 px-4 text-black hover:opacity-50 dark:border-neutral-600 dark:bg-[#343541] dark:text-white md:mb-0 md:mt-2"
-              onClick={onRegenerate}
-            >
-              <IconRepeat size={16} /> {t('Regenerate response')}
-            </button>
-          )}
+        {/*{!messageIsStreaming &&*/}
+        {/*  selectedConversation &&*/}
+        {/*  selectedConversation.messages.length > 0 && (*/}
+        {/*    <button*/}
+        {/*      className="absolute top-0 left-0 right-0 mx-auto mb-3 flex w-fit items-center gap-3 rounded border border-neutral-200 bg-white py-2 px-4 text-black hover:opacity-50 dark:border-neutral-600 dark:bg-[#343541] dark:text-white md:mb-0 md:mt-2"*/}
+        {/*      onClick={onRegenerate}*/}
+        {/*    >*/}
+        {/*      <IconRepeat size={16} /> {t('Regenerate response')}*/}
+        {/*    </button>*/}
+        {/*  )}*/}
 
         <div className="relative mx-2 flex w-full flex-grow flex-col rounded-md border border-black/10 bg-white shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:border-gray-900/50 dark:bg-[#40414F] dark:text-white dark:shadow-[0_0_15px_rgba(0,0,0,0.10)] sm:mx-4">
           {/*<button*/}
@@ -285,36 +287,44 @@ export const ChatInput = ({
           {/*  onClick={() => setShowPluginSelect(!showPluginSelect)}*/}
           {/*  onKeyDown={(e) => {}}*/}
           {/*>*/}
-          {/*  {plugin ? <IconClearAll size={20} /> : <IconBolt size={20} />}*/}
+          {/*  {plugin ? <IconTrash size={20} /> : <IconBolt size={20} />}*/}
           {/*</button>*/}
 
+          <button
+              className="absolute left-2 top-2 rounded-sm p-1 text-neutral-800 opacity-60 hover:bg-neutral-200 hover:text-neutral-900 dark:bg-opacity-50 dark:text-neutral-100 dark:hover:text-neutral-200"
+          >
+            <IconTrash size={20} />
+          </button>
           {/*<button*/}
-          {/*    className="ml-2 cursor-pointer hover:opacity-50"*/}
+          {/*    className="absolute left-4 top-2 rounded-sm p-2 text-neutral-800 opacity-60 hover:bg-neutral-200 hover:text-neutral-900 dark:bg-opacity-50 dark:text-neutral-100 dark:hover:text-neutral-200"*/}
           {/*>*/}
-          {/*  <IconClearAll size={18} />*/}
+          {/*  <IconTrash size={20} />*/}
           {/*</button>*/}
-          {/*{showPluginSelect && (*/}
-          {/*  <div className="absolute left-0 bottom-14 rounded bg-white dark:bg-[#343541]">*/}
-          {/*    <PluginSelect*/}
-          {/*      plugin={plugin}*/}
-          {/*      onKeyDown={(e: any) => {*/}
-          {/*        if (e.key === 'Escape') {*/}
-          {/*          e.preventDefault();*/}
-          {/*          setShowPluginSelect(false);*/}
-          {/*          textareaRef.current?.focus();*/}
-          {/*        }*/}
-          {/*      }}*/}
-          {/*      onPluginChange={(plugin: Plugin) => {*/}
-          {/*        setPlugin(plugin);*/}
-          {/*        setShowPluginSelect(false);*/}
 
-          {/*        if (textareaRef && textareaRef.current) {*/}
-          {/*          textareaRef.current.focus();*/}
-          {/*        }*/}
-          {/*      }}*/}
-          {/*    />*/}
-          {/*  </div>*/}
-          {/*)}*/}
+
+
+          {showPluginSelect && (
+            <div className="absolute left-0 bottom-14 rounded bg-white dark:bg-[#343541]">
+              <PluginSelect
+                plugin={plugin}
+                onKeyDown={(e: any) => {
+                  if (e.key === 'Escape') {
+                    e.preventDefault();
+                    setShowPluginSelect(false);
+                    textareaRef.current?.focus();
+                  }
+                }}
+                onPluginChange={(plugin: Plugin) => {
+                  setPlugin(plugin);
+                  setShowPluginSelect(false);
+
+                  if (textareaRef && textareaRef.current) {
+                    textareaRef.current.focus();
+                  }
+                }}
+              />
+            </div>
+          )}
 
           <textarea
             ref={textareaRef}

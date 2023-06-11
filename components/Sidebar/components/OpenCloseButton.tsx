@@ -1,4 +1,4 @@
-import { IconArrowBarLeft, IconArrowBarRight } from '@tabler/icons-react';
+import { IconMenu2 } from '@tabler/icons-react';
 
 interface Props {
   onClick: any;
@@ -16,7 +16,7 @@ export const CloseSidebarButton = ({ onClick, side }: Props) => {
         } sm:h-8 sm:w-8 sm:text-neutral-700`}
         onClick={onClick}
       >
-        {side === 'right' ? <IconArrowBarRight /> : <IconArrowBarLeft />}
+        {side === 'right' ? <IconMenu2 /> : <IconMenu2 />}
       </button>
       <div
         onClick={onClick}
@@ -36,7 +36,7 @@ export const OpenSidebarButton = ({ onClick, side }: Props) => {
       } sm:h-8 sm:w-8 sm:text-neutral-700`}
       onClick={onClick}
     >
-      {side === 'right' ? <IconArrowBarLeft /> : <IconArrowBarRight />}
+      {side === 'right' ? <IconMenu2 /> : <IconMenu2 />}
     </button>
   );
 };
