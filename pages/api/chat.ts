@@ -1,4 +1,3 @@
-import Cors from "cors";
 import { DEFAULT_SYSTEM_PROMPT, DEFAULT_TEMPERATURE } from '@/utils/app/const';
 import { OpenAIError, OpenAIStream, createImage } from '@/utils/server';
 
@@ -11,19 +10,24 @@ import tiktokenModel from '@dqbd/tiktoken/encoders/cl100k_base.json';
 import { Tiktoken, init } from '@dqbd/tiktoken/lite/init';
 
 
-export const config = {
-  runtime: 'edge',
-};
 
-const cors = Cors({
-  methods: ["GET", "POST", "PUT", "DELETE", "HEAD"],
-  origin: "*",
-});
 
-const handler = async (req: Request,res): Promise<Response> => {
-  try {
-    await cors(req, res);
-    const { model, messages, key, prompt, temperature, generateImage } = (await req.json()) as ChatBody;
+const handler = async (req: Request): Promise<Response> => {
+  console.log('req', req);
+    try {
+  // 如果是 OPTIONS 请求，返回跨域响应头即可
+  if (req.method === 'OPTIONS') {
+    let response = new Response;
+    response.headers.set('Access-Control-Allow-Methods', 'GET,POST');
+    // 允许跨域访问的 HTTP 头部字段
+    response.headers.set('Access-Control-Allow-Headers', '*');
+    // 允许所有域名跨域访问
+    response.headers.set('Access-Control-Allow-Origin', '*');
+    return  response;
+  }
+
+
+  const { model, messages, key, prompt, temperature, generateImage } = (await req.json()) as ChatBody;
 
     console.log('model', model);
     
