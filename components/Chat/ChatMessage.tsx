@@ -190,11 +190,9 @@ export const ChatMessage: FC<Props> = memo(({ message, messageIndex, onEdit }) =
                   </div>
                 </div>
               ) : (
-                <div className={`
-                      ${message.role === 'assistant'
-                        ? '  prose whitespace-pre-wrap dark:prose-invert flex-1'
-                        : ' text-right prose whitespace-pre-wrap dark:prose-invert flex-1'
-                }`}>
+
+
+                <div className="text-right prose whitespace-pre-wrap dark:prose-invert flex-1">
                   {message.content}
                 </div>
               )}
