@@ -1,4 +1,4 @@
-import { IconTrash, IconSettings } from '@tabler/icons-react';
+import {IconTrash, IconSettings, IconMessageCircle, IconArrowDown,IconArrowBarRight} from '@tabler/icons-react';
 import {
   MutableRefObject,
   memo,
@@ -411,15 +411,16 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
             {selectedConversation?.messages.length === 0 ? (
               <>
                 <div className="mx-auto flex flex-col space-y-5 md:space-y-10 px-3 pt-5 md:pt-12 sm:max-w-[600px]">
-                  <div className="text-center text-3xl font-semibold text-gray-800 dark:text-gray-100">
+                  <div className="flex text-base items-center justify-center text-gray-800 dark:text-gray-100 font-semibold ">
                     {models.length === 0&&false ? (
                       <div>
                         <Spinner size="16px" className="mx-auto" />
                       </div>
                     ) : (
-                        <span font-size="12px">
-                         1Chat
-                        </span>
+                        <div className=" mt-8 flex items-center justify-center text-gray-800 dark:text-gray-100 font-semibold" >
+                    <IconMessageCircle / >
+                      <span  className="ml-4" >1.11Chat.cc 免费、无限制、免登录的ChatAI。最方便体验最好的网站  </span>
+                     </div>
 
                     )}
                   </div>
@@ -464,22 +465,22 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
               </>
             ) : (
               <>
-                <div className="sticky top-0 z-10 flex justify-center border border-b-neutral-300 bg-neutral-100 py-2 text-sm text-neutral-500 dark:border-none dark:bg-[#444654] dark:text-neutral-200">
-                  {/*{t('Model')}: {selectedConversation?.model.name} | {t('Temp')}*/}
-                  {/*: {selectedConversation?.temperature} |*/}
-                  {/*<button*/}
-                  {/*  className="ml-2 cursor-pointer hover:opacity-50"*/}
-                  {/*  onClick={handleSettings}*/}
-                  {/*>*/}
-                  {/*  <IconSettings size={18} />*/}
-                  {/*</button>*/}
-                  <button
-                    className="ml-2 cursor-pointer hover:opacity-50"
-                    onClick={onClearAll}
-                  >
-                    <IconTrash size={18} />
-                  </button>
-                </div>
+                {/*<div className="sticky top-0 z-10 flex justify-center border border-b-neutral-300 bg-neutral-100 py-2 text-sm text-neutral-500 dark:border-none dark:bg-[#444654] dark:text-neutral-200">*/}
+                {/*  /!*{t('Model')}: {selectedConversation?.model.name} | {t('Temp')}*!/*/}
+                {/*  /!*: {selectedConversation?.temperature} |*!/*/}
+                {/*  /!*<button*!/*/}
+                {/*  /!*  className="ml-2 cursor-pointer hover:opacity-50"*!/*/}
+                {/*  /!*  onClick={handleSettings}*!/*/}
+                {/*  /!*>*!/*/}
+                {/*  /!*  <IconSettings size={18} />*!/*/}
+                {/*  /!*</button>*!/*/}
+                {/*  <button*/}
+                {/*    className="ml-2 cursor-pointer hover:opacity-50"*/}
+                {/*    onClick={onClearAll}*/}
+                {/*  >*/}
+                {/*    <IconTrash size={18} />*/}
+                {/*  </button>*/}
+                {/*</div>*/}
                 {/*{showSettings && (*/}
                 {/*  <div className="flex flex-col space-y-10 md:mx-auto md:max-w-xl md:gap-6 md:py-3 md:pt-6 lg:max-w-2xl lg:px-0 xl:max-w-3xl">*/}
                 {/*    <div className="flex h-full flex-col space-y-4 border-b border-neutral-200 p-4 dark:border-neutral-600 md:rounded-lg md:border">*/}
