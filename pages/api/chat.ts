@@ -93,7 +93,13 @@ const handler = async (req: Request): Promise<Response> => {
 
     const stream = await OpenAIStream(model, promptToSend, temperatureToUse, key, messagesToSend);
 
-    return new Response(stream);
+    let response1 = new Response(stream);
+    response1.headers.set('Access-Control-Allow-Methods', 'GET,POST');
+    // 允许跨域访问的 HTTP 头部字段
+    response1.headers.set('Access-Control-Allow-Headers', '*');
+    // 允许所有域名跨域访问
+    response1.headers.set('Access-Control-Allow-Origin', '*');
+    return response1;
   } catch (error) {
     console.error(error);
     if (error instanceof OpenAIError) {
