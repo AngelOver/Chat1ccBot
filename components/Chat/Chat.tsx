@@ -369,7 +369,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
   return (
     <div className="relative flex-1 overflow-hidden bg-white dark:bg-[#343541]">
       {!(apiKey || serverSideApiKeyIsSet)&&false ? (
-        <div className="mx-auto flex h-full w-[300px] flex-col justify-center space-y-6 sm:w-[600px]">
+        <div className="mx-auto flex h-full w-[300px] flex-col justify-center space-y-6 ">
           <div className="text-center text-4xl font-bold text-black dark:text-white">
             1Chat
           </div>
@@ -417,8 +417,8 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
           >
             {selectedConversation?.messages.length === 0 ? (
               <>
-                <div className="mx-auto flex flex-col space-y-5 md:space-y-10 px-3 pt-5 md:pt-12 sm:max-w-[600px]">
-                  <div className="flex text-base items-center justify-center text-gray-800 dark:text-gray-100 font-semibold ">
+                <div className="mx-auto flex flex-col space-y-5 md:space-y-10 px-3 pt-5 md:pt-12 ">
+                  <div className="w-full flex text-base items-center justify-center text-gray-800 dark:text-gray-100 font-semibold ">
                     {models.length === 0&&false ? (
                       <div>
                         <Spinner size="16px" className="mx-auto" />
