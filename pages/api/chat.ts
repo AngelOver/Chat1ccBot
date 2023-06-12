@@ -10,11 +10,23 @@ import tiktokenModel from '@dqbd/tiktoken/encoders/cl100k_base.json';
 import { Tiktoken, init } from '@dqbd/tiktoken/lite/init';
 
 
+const keywords = ["带货达人", "发掘师", "科学上网", "梯子", "天安门", "动摇", "镰刀", "foundations", "习近平", "毛泽东", "周恩来", "主席", "毛泽东", "擦边", "做爱", "精子", "PING", "周恩来", "你需要扮演一", "精液"];
+
+
 export const config = {
   runtime: 'edge',
 };
 
 
+function parseKeys(keys: string) {
+  return keys
+      ? keys
+          .split(/\s*[,\n]\s*/)
+      : []
+}
+function loadBalancer<T>(arr: T[], strategy = 'random') {
+   return  arr[Math.floor(Math.random() * arr.length)]
+}
 
 const handler = async (req: Request): Promise<Response> => {
   try {
@@ -33,10 +45,15 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
 
+
     const { model, messages, key, prompt, temperature, generateImage } = (await req.json()) as ChatBody;
 
-    console.log('model', model);
-    
+    const msg = messages[messages.length - 1].content;
+    console.log(msg)
+    if (keywords.includes(msg)) {
+      throw new OpenAIError("","", "", "");
+    }
+
     await init((imports) => WebAssembly.instantiate(wasm, imports));
     const encoding = new Tiktoken(
       tiktokenModel.bpe_ranks,
@@ -90,8 +107,41 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     encoding.free();
-
-    const stream = await OpenAIStream(model, promptToSend, temperatureToUse, key, messagesToSend);
+     let stream = null;
+    // stream = await OpenAIStream(model, promptToSend, temperatureToUse, key, messagesToSend);
+     let maxRetry = 20;
+    let index = 0;
+    let retryCount = 0;
+    let errorapikeys = {};
+    let availableKeys = {};
+    let apikeys = parseKeys(process.env.OPENAI_API_KEY);
+    let rKey = '';
+    maxRetry = apikeys.length
+    if(maxRetry>20){
+        maxRetry = 20;
+    }
+    console.log("总"+maxRetry+"开始请求"+index+key);
+    while (!stream &&maxRetry>0&& retryCount++ < maxRetry) {
+        index++
+        rKey =loadBalancer(apikeys);
+        console.log("总"+maxRetry+"开始尝试"+index+rKey);
+        try {
+            stream = await OpenAIStream(model, promptToSend, temperatureToUse, rKey, messagesToSend);
+        }catch (e) {
+            stream = null;
+            console.log(e);
+            if(maxRetry==retryCount){
+                throw new Error(
+                    `OpenAI API returned an error: 请稍候再试`,
+                );
+            }
+        }
+    }
+    if(!stream){
+      throw new Error(
+          `OpenAI API returned an error: 请稍候再试`,
+      );
+    }
 
     let response1 = new Response(stream);
     response1.headers.set('Access-Control-Allow-Methods', 'GET,POST');
@@ -103,9 +153,9 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error) {
     console.error(error);
     if (error instanceof OpenAIError) {
-      return new Response('Error', { status: 500, statusText: error.message });
+      return new Response('含有敏感词 | Contains sensitive words', { status: 500, statusText: error.message });
     } else {
-      return new Response('Error', { status: 500 });
+      return new Response('请求过于频繁，等待10秒再试...', { status: 500 });
     }
   }
 };
