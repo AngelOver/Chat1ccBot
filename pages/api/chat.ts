@@ -114,7 +114,7 @@ const handler = async (req: Request): Promise<Response> => {
     let retryCount = 0;
     let errorapikeys = {};
     let availableKeys = {};
-    let apikeys = parseKeys(process.env.OPENAI_API_KEY);
+    let apikeys = parseKeys(process.env.OPENAI_API_KEY as string);
     let rKey = '';
     maxRetry = apikeys.length
     if(maxRetry>20){
