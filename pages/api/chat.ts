@@ -55,7 +55,7 @@ const handler = async (req: Request): Promise<Response> => {
     const msg = messages[messages.length - 1].content;
     console.log(msg)
     if (keywordsChat1.test(msg)||keywordsChat2.test(msg)||keywordsChat3.test(msg)) {
-      throw new OpenAIError("","", "", "");
+      throw new OpenAIError("含有敏感词 | IP已被记录，请换个问题","", "", "");
     }
 
     await init((imports) => WebAssembly.instantiate(wasm, imports));
