@@ -167,9 +167,23 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error) {
     console.error(error);
     if (error instanceof OpenAIError) {
-      return new Response('含有敏感词 | IP已被记录，请换个问题', { status: 500, statusText: error.message });
+      let response2 = new Response('含有敏感词 | IP已被记录，请换个问题', {status: 500, statusText: error.message});
+      response2.headers.set('Access-Control-Allow-Methods', 'GET,POST');
+      // 允许跨域访问的 HTTP 头部字段
+      response2.headers.set('Access-Control-Allow-Headers', '*');
+      // 允许所有域名跨域访问
+      response2.headers.set('Access-Control-Allow-Origin', '*');
+      return response2;
     } else {
-      return new Response('请求过于频繁，等待10秒再试...', { status: 500 });
+      let response3 = new Response('请求过于频繁，等待10秒再试...', { status: 500 });
+
+      response3.headers.set('Access-Control-Allow-Methods', 'GET,POST');
+      // 允许跨域访问的 HTTP 头部字段
+      response3.headers.set('Access-Control-Allow-Headers', '*');
+      // 允许所有域名跨域访问
+      response3.headers.set('Access-Control-Allow-Origin', '*');
+
+      return response3;
     }
   }
 };
