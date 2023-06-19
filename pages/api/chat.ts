@@ -44,7 +44,6 @@ function loadBalancer<T>(arr: T[], strategy = 'random') {
 
 const handler = async (req: Request): Promise<Response> => {
   try {
-    console.log("请求来了")
     let response = new Response('OK', { status: 200});
     response.headers.set('Access-Control-Allow-Methods', 'GET,POST');
     // 允许跨域访问的 HTTP 头部字段
@@ -54,11 +53,8 @@ const handler = async (req: Request): Promise<Response> => {
 
     // 如果是 OPTIONS 请求，返回跨域响应头即可
     if (req.method === 'OPTIONS') {
-      console.log("请求OPTIONS")
       return  response;
     }
-
-
 
     const { model, messages, key, prompt, temperature, generateImage } = (await req.json()) as ChatBody;
 
@@ -72,6 +68,7 @@ const handler = async (req: Request): Promise<Response> => {
          ||keywordsChat8.test(msg)
         // ||keywordsChat9.test(msg)
     ) {
+      console.log("含有敏感词 | IP已被记录，请换个问题："+msg)
       throw new OpenAIError("含有敏感词 | IP已被记录，请换个问题","", "", "");
     }
 
@@ -92,13 +89,11 @@ const handler = async (req: Request): Promise<Response> => {
       temperatureToUse = DEFAULT_TEMPERATURE;
     }
 
-    console.log('generateImage', generateImage);
-
     // Fetch the image URL when the imagePrompt field is provided
     let imageUrl: string | null = null;
     if (generateImage) {
       const imagePrompt = messages[messages.length - 1].content;
-
+      console.log('generateImage', generateImage);
       const data = await createImage(imagePrompt, key);
       console.log('data', data);
       imageUrl = data.data[0].url;
@@ -108,7 +103,6 @@ const handler = async (req: Request): Promise<Response> => {
 
       return new Response(imageUrl);
     }
-
 
 
     const prompt_tokens = encoding.encode(promptToSend);
@@ -141,11 +135,13 @@ const handler = async (req: Request): Promise<Response> => {
     if(maxRetry>20){
         maxRetry = 20;
     }
-    console.log("总"+maxRetry+"开始请求"+index+key);
+    //console.log("总"+maxRetry+"开始请求"+index+key);
     while (!stream &&maxRetry>0&& retryCount++ < maxRetry) {
         index++
         rKey =loadBalancer(apikeys);
-        console.log("总"+maxRetry+"开始尝试"+index+rKey);
+        if(index>3){
+          console.log("总"+maxRetry+"尝试"+index+rKey+msg);
+        }
         try {
             stream = await OpenAIStream(model, promptToSend, temperatureToUse, rKey, messagesToSend);
         }catch (e) {
