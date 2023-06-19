@@ -101,7 +101,14 @@ const handler = async (req: Request): Promise<Response> => {
       console.log('imageUrl', imageUrl);
       console.log('messages', messages);
 
-      let response4 = new Response(imageUrl);
+      let imgMsg= "" +
+          "图片生成成功，正在加载图片链接中，请耐心等候10秒左右。。。。。(快慢取决于你自己的网络)\n" +
+          "注：AI绘画由OpenAI提供，模型为 DALL-E2，效果有待完善，以下是图片\n"+
+          "建议关键词写丰富点，例如：画少女，眼影，光影，校园，质量最好，甜美，樱花，薰衣草色眼镜，黑色长发。\n"+
+          "专业绘画见Midjourney绘画，前往 https://mj.a1r.cc\n";
+      imgMsg += "<img src='" + data.data[0].url + "'></td>";
+
+      let response4 = new Response(imgMsg);
       response4.headers.set('Access-Control-Allow-Methods', 'GET,POST');
       // 允许跨域访问的 HTTP 头部字段
       response4.headers.set('Access-Control-Allow-Headers', '*');
