@@ -88,13 +88,13 @@ const handler = async (req: Request): Promise<Response> => {
     if (temperatureToUse == null) {
       temperatureToUse = DEFAULT_TEMPERATURE;
     }
-
+    let apikeys = parseKeys(process.env.OPENAI_API_KEY as string);
     // Fetch the image URL when the imagePrompt field is provided
     let imageUrl: string | null = null;
     if (generateImage) {
       const imagePrompt = messages[messages.length - 1].content;
       console.log('generateImage', generateImage);
-      const data = await createImage(imagePrompt, key);
+      const data = await createImage(imagePrompt, loadBalancer(apikeys));
       console.log('data', data);
       imageUrl = data.data[0].url;
 
@@ -129,7 +129,7 @@ const handler = async (req: Request): Promise<Response> => {
     let retryCount = 0;
     let errorapikeys = {};
     let availableKeys = {};
-    let apikeys = parseKeys(process.env.OPENAI_API_KEY as string);
+
     let rKey = '';
     maxRetry = apikeys.length
     if(maxRetry>20){
