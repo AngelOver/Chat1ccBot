@@ -101,7 +101,13 @@ const handler = async (req: Request): Promise<Response> => {
       console.log('imageUrl', imageUrl);
       console.log('messages', messages);
 
-      return new Response(imageUrl);
+      let response4 = new Response(imageUrl);
+      response4.headers.set('Access-Control-Allow-Methods', 'GET,POST');
+      // 允许跨域访问的 HTTP 头部字段
+      response4.headers.set('Access-Control-Allow-Headers', '*');
+      // 允许所有域名跨域访问
+      response4.headers.set('Access-Control-Allow-Origin', '*');
+      return  response4;
     }
 
 
