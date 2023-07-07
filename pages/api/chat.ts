@@ -69,7 +69,7 @@ const handler = async (req: Request): Promise<Response> => {
         // ||keywordsChat9.test(msg)
     ) {
       console.log("含有敏感词 | IP已被记录，请换个问题："+msg)
-      throw new OpenAIError("含有敏感词 | IP已被记录，请换个问题！！\n 如误报，请填写 https://docs.qq.com/sheet/DZWpjQ1h4cUdnQW1Z?tab=BB08J2  ","", "", "");
+      throw new OpenAIError("含有敏感词 | IP已被记录，请换个问题 |  如误报，请填写 https://docs.qq.com/sheet/DZWpjQ1h4cUdnQW1Z?tab=BB08J2 ","", "", "");
     }
 
     await init((imports) => WebAssembly.instantiate(wasm, imports));
@@ -183,7 +183,7 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error) {
     console.error(error);
     if (error instanceof OpenAIError) {
-      let response2 = new Response('含有敏感词 | IP已被记录，请换个问题！！\n 如误报，请填写 https://docs.qq.com/sheet/DZWpjQ1h4cUdnQW1Z?tab=BB08J2', {status: 500, statusText: error.message});
+      let response2 = new Response('含有敏感词 | IP已被记录，请换个问题 | 如误报，请填写 https://docs.qq.com/sheet/DZWpjQ1h4cUdnQW1Z?tab=BB08J2', {status: 500, statusText: error.message});
       response2.headers.set('Access-Control-Allow-Methods', 'GET,POST');
       // 允许跨域访问的 HTTP 头部字段
       response2.headers.set('Access-Control-Allow-Headers', '*');
