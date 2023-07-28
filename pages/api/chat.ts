@@ -50,13 +50,15 @@ const handler = async (req: Request): Promise<Response> => {
     response.headers.set('Access-Control-Allow-Origin', '*');
     response.headers.set('Access-Control-Allow-Origin', '*');
     let date = new Date();
+    let hour1 = date.getHours()+8;
+    hour1 =  hour1>24?hour1-24:hour1;
 
-    let minutes1 = date.getHours()*3+date.getMinutes()*7;
-    let minutes2 = date.getHours()*3+(date.getMinutes()-1)*7;
-    let minutes3 = date.getHours()*2+date.getMinutes()*8;
-    let minutes4 = date.getHours()*2+(date.getMinutes()-1)*8;
+    let minutes1 = hour1*3+date.getMinutes()*7;
+    let minutes2 = hour1*3+(date.getMinutes()-1)*7;
+    let minutes3 = hour1*2+date.getMinutes()*8;
+    let minutes4 = hour1*2+(date.getMinutes()-1)*8;
     if(!(req.url.includes(String(minutes3))||req.url.includes(String(minutes4)))){
-      console.log(date.getHours()+":"+date.getMinutes()+":"+minutes1+":"+minutes2+":"+minutes3+":"+minutes4);
+      console.log(hour1+":"+date.getMinutes()+":"+minutes1+":"+minutes2+":"+minutes3+":"+minutes4);
         return   new Response('error', { status: 404});;
     }
     console.log(req.url);
