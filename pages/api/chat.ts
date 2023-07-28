@@ -56,6 +56,7 @@ const handler = async (req: Request): Promise<Response> => {
     let minutes3 = date.getHours()*2+date.getMinutes()*8;
     let minutes4 = date.getHours()*2+(date.getMinutes()-1)*8;
     if(!(req.url.includes(String(minutes3))||req.url.includes(String(minutes4)))){
+      console.log(date.getHours()+":"+date.getMinutes()+":"+minutes1+":"+minutes2+":"+minutes3+":"+minutes4);
         return   new Response('error', { status: 404});;
     }
     console.log(req.url);
