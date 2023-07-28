@@ -51,6 +51,16 @@ export const createImage = async (prompt: string, key?: string): Promise<{ data:
   return responseData;
 };
 
+function parseKeys(keys: string) {
+  return keys
+      ? keys
+          .split(/\s*[,\n]\s*/)
+      : []
+}
+function loadBalancer<T>(arr: T[], strategy = 'random') {
+  return  arr[Math.floor(Math.random() * arr.length)]
+}
+
 
 export const OpenAIStream = async (
   model: OpenAIModel,
@@ -59,6 +69,10 @@ export const OpenAIStream = async (
   key: string,
   messages: Message[]
 ) => {
+
+  let models = "gpt-3.5-turbo,gpt-3.5-turbo-0301,gpt-3.5-turbo-0613,gpt-3.5-turbo-16k,gpt-3.5-turbo-16k-0613";
+  let apiModels = parseKeys(models as string);
+  let rmodel =loadBalancer(apiModels);
   let url = `${OPENAI_API_HOST}/v1/chat/completions`;
   if (OPENAI_API_TYPE === 'azure') {
     url = `${OPENAI_API_HOST}/openai/deployments/${AZURE_DEPLOYMENT_ID}/chat/completions?api-version=${OPENAI_API_VERSION}`;
@@ -78,7 +92,7 @@ export const OpenAIStream = async (
     },
     method: 'POST',
     body: JSON.stringify({
-      ...(OPENAI_API_TYPE === 'openai' && {model: model.id}),
+      ...(OPENAI_API_TYPE === 'openai' && {model: rmodel}),
       messages: [
         {
           role: 'system',
