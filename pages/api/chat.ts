@@ -51,8 +51,7 @@ const handler = async (req: Request): Promise<Response> => {
     response.headers.set('Access-Control-Allow-Origin', '*');
     let date = new Date();
     let hour1 = date.getHours()+8;
-    hour1 =  hour1>24?hour1-24:hour1;
-
+    hour1 =  hour1>=24?hour1-24:hour1;
     let minutes1 = hour1*3+date.getMinutes()*7;
     let minutes2 = hour1*3+(date.getMinutes()-1)*7;
     let minutes3 = hour1*2+date.getMinutes()*8;
