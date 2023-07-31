@@ -377,18 +377,19 @@ const Home = ({
           className={`flex h-screen w-screen flex-col text-sm text-white dark:text-white ${lightMode}`}
         >
           <div className="fixed top-0 w-full sm:hidden">
-            <Navbar
-              selectedConversation={selectedConversation}
-              onNewConversation={handleNewConversation}
-            />
+            {/*<Navbar*/}
+            {/*  selectedConversation={selectedConversation}*/}
+            {/*  onNewConversation={handleNewConversation}*/}
+            {/*/>*/}
           </div>
 
           <div className="flex h-full w-full pt-[48px] sm:pt-0">
-            <Chatbar />
+            1.11Chat.cc 免费、无限制、免登录的ChatAI。当前域名不提供服务，请前往主域名
+            {/*<Chatbar />*/}
 
-            <div className="flex flex-1">
-              <Chat stopConversationRef={stopConversationRef} />
-            </div>
+            {/*<div className="flex flex-1">*/}
+            {/*  <Chat stopConversationRef={stopConversationRef} />*/}
+            {/*</div>*/}
 
             {/*<Promptbar />*/}
           </div>

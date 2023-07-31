@@ -426,7 +426,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                     ) : (
                         <div className=" mt-8 flex items-center justify-center text-gray-800 dark:text-gray-100 font-semibold" >
                     <IconMessageCircle / >
-                      <span  className="ml-4" >1.11Chat.cc 免费、无限制、免登录的ChatAI。最方便体验最好的网站  </span>
+                      <span  className="ml-4" >1.11Chat.cc 免费、无限制、免登录的ChatAI。当前域名不提供服务，请前往主域名  </span>
                      </div>
 
                     )}
