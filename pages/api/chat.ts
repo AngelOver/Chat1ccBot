@@ -57,10 +57,10 @@ const handler = async (req: Request): Promise<Response> => {
     let minutes3 = hour1*2+date.getMinutes()*8;
     let minutes4 = hour1*2+(date.getMinutes()-1)*8;
     if(!(req.url.includes(String(minutes3))||req.url.includes(String(minutes4)))){
+      console.log("鉴权异常："+req.url);
       console.log(hour1+":"+date.getMinutes()+":"+minutes1+":"+minutes2+":"+minutes3+":"+minutes4);
         return   new Response('error', { status: 404});;
     }
-    console.log(req.url);
 
     // 如果是 OPTIONS 请求，返回跨域响应头即可
     if (req.method === 'OPTIONS') {
@@ -84,7 +84,7 @@ const handler = async (req: Request): Promise<Response> => {
          ||keywordsChat8.test(msg)
         // ||keywordsChat9.test(msg)
     ) {
-      console.log("含有敏感词 | IP已被记录，请换个问题："+msg)
+      console.log("敏感词msg："+msg)
       throw new OpenAIError("含有敏感词 | IP已被记录，请换个问题 |  如误报，请填写 https://docs.qq.com/sheet/DZWpjQ1h4cUdnQW1Z?tab=BB08J2 ","", "", "");
     }
 
@@ -116,7 +116,7 @@ const handler = async (req: Request): Promise<Response> => {
       //
       // console.log('imageUrl', imageUrl);
       // console.log('messages', messages);
-      let imgMsg="绘画功能已升级为 MidJourney专业绘画，前往 https://mj.c3g.ink "
+      let imgMsg="绘画功能已升级为 MidJourney专业绘画，前往 https://mj2.c3g.ink "
       // let imgMsg= "" +
       //     "图片生成成功，正在加载图片链接中，请耐心等候10秒左右。。。。。(快慢取决于你自己的网络)\n" +
       //     "注：AI绘画由OpenAI提供，模型为 DALL-E2，效果有待完善，以下是图片\n"+
