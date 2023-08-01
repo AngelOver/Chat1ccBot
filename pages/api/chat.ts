@@ -54,9 +54,13 @@ const handler = async (req: Request): Promise<Response> => {
     hour1 =  hour1>=24?hour1-24:hour1;
     let minutes1 = hour1*3+date.getMinutes()*7;
     let minutes2 = hour1*3+(date.getMinutes()-1)*7;
+    let minutes23 = hour1*3+(date.getMinutes()+1)*7;
     let minutes3 = hour1*2+date.getMinutes()*8;
     let minutes4 = hour1*2+(date.getMinutes()-1)*8;
-    if(!(req.url.includes(String(minutes3))||req.url.includes(String(minutes4)))){
+    let minutes5 = hour1*2+(date.getMinutes()+1)*8;
+
+
+    if(!(req.url.includes(String(minutes3))||req.url.includes(String(minutes4))||req.url.includes(String(minutes5)))){
       console.log("鉴权异常："+req.url);
       console.log(hour1+":"+date.getMinutes()+":"+minutes1+":"+minutes2+":"+minutes3+":"+minutes4);
         return   new Response('error', { status: 404});;
@@ -68,7 +72,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     let sign =Number( req.headers.get('Authorization')) ;
-    if(!(sign==minutes1||sign==minutes2)){
+    if(!(sign==minutes1||sign==minutes2||sign==minutes23)){
       return   new Response('error', { status: 404});;
     }
 
