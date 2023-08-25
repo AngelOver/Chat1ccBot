@@ -74,15 +74,16 @@ export const OpenAIStream = async (
   let apiModels = parseKeys(models as string);
   let rmodel =loadBalancer(apiModels);
   let apiHost = OPENAI_API_HOST;
-  let url = `${OPENAI_API_HOST}/v1/chat/completions`;
-  if (OPENAI_API_TYPE === 'azure') {
-    url = `${apiHost}/openai/deployments/${AZURE_DEPLOYMENT_ID}/chat/completions?api-version=${OPENAI_API_VERSION}`;
-  }
-
   if(!key.includes("sk-")){
     apiHost = 'http://124.221.62.203:8102' ;
     console.log(apiHost+"："+key);
   }
+  let url = `${apiHost}/v1/chat/completions`;
+  if (OPENAI_API_TYPE === 'azure') {
+    url = `${apiHost}/openai/deployments/${AZURE_DEPLOYMENT_ID}/chat/completions?api-version=${OPENAI_API_VERSION}`;
+  }
+
+
   const res = await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
