@@ -89,7 +89,7 @@ const handler = async (req: Request): Promise<Response> => {
         // ||keywordsChat9.test(msg)
     ) {
       console.log("敏感词msg："+msg)
-      throw new OpenAIError("含有敏感词 | IP已被记录，请换个问题 |  如误报，请填写 https://docs.qq.com/sheet/DZWpjQ1h4cUdnQW1Z?tab=BB08J2 ","", "", "");
+      throw new OpenAIError("含有敏感词 | IP已被记录，请换个问题 | 登录即无审核，前往-> https://vip.1ai.ink?ref=noCheck  ","", "", "");
     }
 
     await init((imports) => WebAssembly.instantiate(wasm, imports));
@@ -120,7 +120,7 @@ const handler = async (req: Request): Promise<Response> => {
       //
       // console.log('imageUrl', imageUrl);
       // console.log('messages', messages);
-      let imgMsg="绘画功能已升级为 MidJourney专业绘画，前往 https://vip.11chat.cc "
+      let imgMsg="绘画功能已升级为 MidJourney专业绘画，前往 https://vip.1ai.ink/midjourney "
       // let imgMsg= "" +
       //     "图片生成成功，正在加载图片链接中，请耐心等候10秒左右。。。。。(快慢取决于你自己的网络)\n" +
       //     "注：AI绘画由OpenAI提供，模型为 DALL-E2，效果有待完善，以下是图片\n"+
@@ -205,7 +205,7 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error) {
     console.error(error);
     if (error instanceof OpenAIError) {
-      let response2 = new Response('含有敏感词 | IP已被记录，请换个问题 | 如误报，请填写 https://docs.qq.com/sheet/DZWpjQ1h4cUdnQW1Z?tab=BB08J2', {status: 500, statusText: error.message});
+      let response2 = new Response('含有敏感词 | IP已被记录，请换个问题 | 登录即无审核，前往-> https://vip.1ai.ink?ref=noCheck', {status: 500, statusText: error.message});
       response2.headers.set('Access-Control-Allow-Methods', 'GET,POST');
       // 允许跨域访问的 HTTP 头部字段
       response2.headers.set('Access-Control-Allow-Headers', '*');
