@@ -75,9 +75,9 @@ export const OpenAIStream = async (
   let rmodel =loadBalancer(apiModels);
   let apiHost = OPENAI_API_HOST;
   if(!key.includes("sk-")){
-    apiHost = 'http://124.221.62.203:8112' ;
+    apiHost = 'http://124.222.27.176:9012' ;
   }else{
-    apiHost = 'http://chatapi2.a3r.top' ;
+    apiHost = 'https://apic.littlewheat.com' ;
   }
   let url = `${apiHost}/v1/chat/completions`;
   if (OPENAI_API_TYPE === 'azure') {
