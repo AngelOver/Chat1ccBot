@@ -59,7 +59,7 @@ const handler = async (req: Request): Promise<Response> => {
     const { model, messages, key, prompt, temperature, generateImage } = (await req.json()) as ChatBody;
 
     const msg = messages[messages.length - 1].content;
-    console.log(msg)
+    //console.log(msg)
     if (MGC.keywordsChat1.test(msg)||MGC.keywordsChat2.test(msg)
         ||MGC.keywordsChat3.test(msg)
          ||MGC.keywordsChat5.test(msg)
@@ -160,7 +160,7 @@ const handler = async (req: Request): Promise<Response> => {
         }catch (e) {
             stream = null;
             console.log("errorKey："+rKey);
-            console.log(e);
+         //   console.log(e);
             if(maxRetry==retryCount){
                 throw new Error(
                     `OpenAI API returned an error: 请稍候再试`,
@@ -180,7 +180,7 @@ const handler = async (req: Request): Promise<Response> => {
     response1.headers.set('Access-Control-Allow-Headers', '*');
     // 允许所有域名跨域访问
     response1.headers.set('Access-Control-Allow-Origin', '*');
-    console.log("sucKey："+rKey+"尝试"+index);
+    // console.log("sucKey："+rKey+"尝试"+index);
     return response1;
   } catch (error) {
     console.error(error);
