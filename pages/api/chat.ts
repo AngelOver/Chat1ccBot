@@ -9,6 +9,7 @@ export const config = {
   runtime: 'edge',
 };
 
+
 function parseKeys(keys: string) {
   return keys
       ? keys
@@ -59,12 +60,18 @@ const handler = async (req: Request): Promise<Response> => {
 
     const msg = messages[messages.length - 1].content;
     console.log(msg)
-    if (MGC.keywordsChat1.test(msg)||MGC.keywordsChat2.test(msg)
-        ||MGC.keywordsChat3.test(msg)
-         ||MGC.keywordsChat5.test(msg)
-         ||MGC.keywordsChat6.test(msg)
-        ||MGC.keywordsChat7.test(msg)
-         ||MGC.keywordsChat8.test(msg)
+    // @ts-ignore
+    if (MGC.k.keywordsChat1.test(msg)||MGC.k.keywordsChat2.test(msg)
+        // @ts-ignore
+        ||MGC.k.keywordsChat3.test(msg)
+        // @ts-ignore
+         ||MGC.k.keywordsChat5.test(msg)
+        // @ts-ignore
+         ||MGC.k.keywordsChat6.test(msg)
+        // @ts-ignore
+        ||MGC.k.keywordsChat7.test(msg)
+        // @ts-ignore
+         ||MGC.k.keywordsChat8.test(msg)
         // ||keywordsChat9.test(msg)
     ) {
       console.log("敏感词msg："+msg)
