@@ -13,6 +13,15 @@ const nextConfig = {
 
     return config;
   },
+  async redirects() {
+    return [
+      {
+        source: '/v1/completions',
+        destination: '/api/completions',
+        permanent: true,
+      },
+    ]
+  },
 };
 
 module.exports = nextConfig;
