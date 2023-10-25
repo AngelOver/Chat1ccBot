@@ -16,7 +16,7 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: '/v1/completions',
+        source: '/v1/chat/completions',
         destination: '/api/completions',
         permanent: true,
       },
