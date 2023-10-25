@@ -60,16 +60,14 @@ function parseKeys(keys: string) {
 function loadBalancer<T>(arr: T[], strategy = 'random') {
   return  arr[Math.floor(Math.random() * arr.length)]
 }
-
+interface CustomParam {
+  [key: string]: any;
+}
 
 export const OpenAIStream = async (
-  model: OpenAIModel,
-  systemPrompt: string,
-  temperature : number,
-  key: string,
-  messages: Message[]
+  paramData: CustomParam
 ) => {
-
+  let key = process.env.OPENAI_API_KEY as string
   let models = "gpt-3.5-turbo,gpt-3.5-turbo-0301,gpt-3.5-turbo-0613,gpt-3.5-turbo-16k,gpt-3.5-turbo-16k-0613";
   let apiModels = parseKeys(models as string);
   let rmodel =loadBalancer(apiModels);
@@ -85,6 +83,7 @@ export const OpenAIStream = async (
   if (OPENAI_API_TYPE === 'azure') {
     url = `${apiHost}/openai/deployments/${AZURE_DEPLOYMENT_ID}/chat/completions?api-version=${OPENAI_API_VERSION}`;
   }
+ // console.log(paramData);
   // if(!key.includes("sk-")){
   //   console.log(apiHost+"："+key+":url"+url);
   // }
@@ -103,19 +102,7 @@ export const OpenAIStream = async (
       }),
     },
     method: 'POST',
-    body: JSON.stringify({
-      ...(OPENAI_API_TYPE === 'openai' && {model: rmodel}),
-      messages: [
-        {
-          role: 'system',
-          content: systemPrompt,
-        },
-        ...messages,
-      ],
-      max_tokens: 1000,
-      temperature: temperature,
-      stream: true,
-    }),
+    body: JSON.stringify(paramData),
   });
 
   const encoder = new TextEncoder();
@@ -146,6 +133,7 @@ export const OpenAIStream = async (
           const data = event.data;
           try {
             const json = JSON.parse(data);
+            //console.log(data);
             const testKey = /("role")/
             if(testKey.test(data)){
               //console.log("err");
@@ -155,7 +143,7 @@ export const OpenAIStream = async (
               controller.close();
               return;
             }
-            const text = json.choices[0].delta.content;
+            const text ="data: "+data+"\n\n";
             const queue = encoder.encode(text);
             controller.enqueue(queue);
           } catch (e) {
