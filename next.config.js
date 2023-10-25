@@ -13,12 +13,11 @@ const nextConfig = {
 
     return config;
   },
-  async redirects() {
+  async rewrites() {
     return [
       {
         source: '/v1/chat/completions',
-        destination: '/api/completions',
-        permanent: true,
+        destination: '/api/completions'
       },
     ]
   },
