@@ -133,19 +133,20 @@ export const OpenAIStream = async (
           const data = event.data;
           try {
             const json = JSON.parse(data);
-            //console.log(data);
+           // console.log(data);
             const testKey = /("role")/
             if(testKey.test(data)){
               //console.log("err");
               return;
             }
-            if (json.choices[0].finish_reason != null) {
-              controller.close();
-              return;
-            }
             const text ="data: "+data+"\n\n";
             const queue = encoder.encode(text);
             controller.enqueue(queue);
+            if (json.choices[0].finish_reason != null) {
+              //  console.log(text)
+              controller.close();
+              return;
+            }
           } catch (e) {
             controller.error(e);
           }

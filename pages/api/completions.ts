@@ -23,13 +23,11 @@ function loadBalancer<T>(arr: T[], strategy = 'random') {
 const handler = async (req: Request): Promise<Response> => {
   try {
     let response = new Response('OK', { status: 200});
-    response.headers.set('Access-Control-Allow-Methods', 'GET,POST');
-
+    response.headers.set('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
 
     // 允许跨域访问的 HTTP 头部字段
     response.headers.set('Access-Control-Allow-Headers', '*');
     // 允许所有域名跨域访问
-    response.headers.set('Access-Control-Allow-Origin', '*');
     response.headers.set('Access-Control-Allow-Origin', '*');
     let date = new Date();
 
