@@ -4,7 +4,7 @@ on: [push, pull_request] # 触发事件
 
 jobs:
   bt-product-release:
-    if: ${{ github.ref == 'refs/heads/main' }}  # 检测main分支是否有更新
+    if: ${{ github.ref == 'refs/heads/qiqi' }}  # 检测main分支是否有更新
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2 # pull代码到运行服务器上
