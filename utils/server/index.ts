@@ -77,7 +77,9 @@ export const OpenAIStream = async (
   if(!key.includes("sk-")){
     apiHost = 'http://124.222.27.176:9012' ;
   }else{
-    apiHost = 'https://apic.littlewheat.com' ;
+   // apiHost = 'https://apic.littlewheat.com' ;
+    apiHost = "https://api.onechat.fun";
+    rmodel="gpt-4";
   }
   let url = `${apiHost}/v1/chat/completions`;
   if (OPENAI_API_TYPE === 'azure') {
@@ -142,9 +144,13 @@ export const OpenAIStream = async (
       const onParse = (event: ParsedEvent | ReconnectInterval) => {
         if (event.type === 'event') {
           const data = event.data;
-
           try {
             const json = JSON.parse(data);
+            const testKey = /("role")/
+            if(testKey.test(data)){
+              //console.log("err");
+              return;
+            }
             if (json.choices[0].finish_reason != null) {
               controller.close();
               return;
