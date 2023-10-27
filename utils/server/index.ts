@@ -120,7 +120,7 @@ export const OpenAIStream = async (
         console.log(decoder.decode(chunk));
         if(tal==0){
           if(testKey.test(decoder.decode(chunk))){
-            continue;
+           // continue;
           }
           tal++
         }
