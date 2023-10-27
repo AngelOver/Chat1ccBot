@@ -111,20 +111,10 @@ export const OpenAIStream = async (
       );
     }
   }
-  const testKey = /("role")/
   const stream = new ReadableStream({
     async start(controller) {
       try {
-        let tal = 0 ;
       for await (const chunk of res.body as any) {
-        console.log(decoder.decode(chunk));
-        if(tal==0){
-          if(testKey.test(decoder.decode(chunk))){
-           // continue;
-          }
-          tal++
-        }
-        // parser.feed(decoder.decode(chunk));
         controller.enqueue(chunk);
       }
       } catch (e) {
