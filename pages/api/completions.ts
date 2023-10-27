@@ -1,24 +1,9 @@
-import { DEFAULT_SYSTEM_PROMPT, DEFAULT_TEMPERATURE } from '@/utils/app/const';
 import { OpenAIError, OpenAIStream } from '@/utils/server';
-
-import { ChatBody, Message } from '@/types/chat';
-
-import {MGC} from '@/types/mgc';
 
 export const config = {
   runtime: 'edge',
 };
 
-
-function parseKeys(keys: string) {
-  return keys
-      ? keys
-          .split(/\s*[,\n]\s*/)
-      : []
-}
-function loadBalancer<T>(arr: T[], strategy = 'random') {
-  return  arr[Math.floor(Math.random() * arr.length)]
-}
 
 const handler = async (req: Request): Promise<Response> => {
   try {
@@ -47,7 +32,6 @@ const handler = async (req: Request): Promise<Response> => {
       stream = await OpenAIStream( data);
     }catch (e) {
       stream = null;
-
     }
     if(!stream){
       throw new Error(

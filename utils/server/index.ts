@@ -1,13 +1,7 @@
-import { Message } from '@/types/chat';
-import { OpenAIModel } from '@/types/openai';
 
 import { AZURE_DEPLOYMENT_ID, DALLE_API_URL, OPENAI_API_HOST, OPENAI_API_TYPE, OPENAI_API_VERSION, OPENAI_ORGANIZATION } from '../app/const';
 
-import {
-  ParsedEvent,
-  ReconnectInterval,
-  createParser,
-} from 'eventsource-parser';
+
 
 export class OpenAIError extends Error {
   type: string;
@@ -80,13 +74,6 @@ export const OpenAIStream = async (
     rmodel="gpt-4";
   }
   let url = `${apiHost}/v1/chat/completions`;
-  if (OPENAI_API_TYPE === 'azure') {
-    url = `${apiHost}/openai/deployments/${AZURE_DEPLOYMENT_ID}/chat/completions?api-version=${OPENAI_API_VERSION}`;
-  }
- // console.log(paramData);
-  // if(!key.includes("sk-")){
-  //   console.log(apiHost+"："+key+":url"+url);
-  // }
 
   const res = await fetch(url, {
     headers: {
@@ -105,7 +92,6 @@ export const OpenAIStream = async (
     body: JSON.stringify(paramData),
   });
 
-  const encoder = new TextEncoder();
   const decoder = new TextDecoder();
 
   if (res.status !== 200) {
@@ -125,41 +111,27 @@ export const OpenAIStream = async (
       );
     }
   }
-
+  const testKey = /("role")/
   const stream = new ReadableStream({
     async start(controller) {
-      const onParse = (event: ParsedEvent | ReconnectInterval) => {
-        if (event.type === 'event') {
-          const data = event.data;
-          try {
-            const json = JSON.parse(data);
-           // console.log(data);
-            const testKey = /("role")/
-            if(testKey.test(data)){
-              //console.log("err");
-              return;
-            }
-            const text ="data: "+data+"\n\n";
-            const queue = encoder.encode(text);
-            controller.enqueue(queue);
-            if (json.choices[0].finish_reason != null) {
-              //  console.log(text)
-              controller.close();
-              return;
-            }
-          } catch (e) {
-            controller.error(e);
-          }
-        }
-      };
-
-      const parser = createParser(onParse);
-
+      try {
+        let tal = 0 ;
       for await (const chunk of res.body as any) {
-        parser.feed(decoder.decode(chunk));
+        if(tal==0){
+          if(testKey.test(decoder.decode(chunk))){
+            continue;
+          }
+          tal++
+        }
+        // parser.feed(decoder.decode(chunk));
+        controller.enqueue(chunk);
       }
+      } catch (e) {
+        controller.error(e);
+        }finally {
+        controller.close()
+        }
     },
   });
-
   return stream;
 };
