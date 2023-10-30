@@ -117,8 +117,8 @@ export const OpenAIStream = async (
         let index = 0;
       for await (const chunk of res.body as any) {
         if(index==0){
-          continue;
           index++;
+          continue;
         }
         controller.enqueue(chunk);
       }
