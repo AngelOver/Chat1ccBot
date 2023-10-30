@@ -70,7 +70,7 @@ export const OpenAIStream = async (
     apiHost = 'http://124.222.27.176:9012' ;
   }else{
    // apiHost = 'https://apic.littlewheat.com' ;
-    apiHost = "https://api.onechat.fun";
+    apiHost = "https://chatapi6.1ai.ink";
     rmodel="gpt-4";
   }
   let url = `${apiHost}/v1/chat/completions`;
@@ -94,6 +94,7 @@ export const OpenAIStream = async (
 
   const decoder = new TextDecoder();
 
+  const encoder = new TextEncoder();
   if (res.status !== 200) {
     const result = await res.json();
     if (result.error) {
@@ -114,16 +115,25 @@ export const OpenAIStream = async (
   const stream = new ReadableStream({
     async start(controller) {
       try {
-        let index = 0;
       for await (const chunk of res.body as any) {
-        if(index==0){
-          index++;
+        let s = decoder.decode(chunk);
+        let length = s.split('data:').length;
+        // index++;
+        // console.log(s);
+        // console.log(index+" 本次："+s.split('data:').length);
+        if(length>2){
+          let datas = s.split('data:');
+          for (let i = 1; i <datas.length ; i++) {
+            controller.enqueue(encoder.encode( "data:"+ datas[i]));
+          }
           continue;
         }
         controller.enqueue(chunk);
       }
       } catch (e) {
-        controller.error(e);
+        console.log("error");
+        console.log(e)
+        controller.close();
         }finally {
         controller.close()
         }
