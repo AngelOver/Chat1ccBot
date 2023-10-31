@@ -70,7 +70,7 @@ export const OpenAIStream = async (
   messages: Message[]
 ) => {
 
-  let models = "gpt-3.5-turbo,gpt-3.5-turbo-0301,gpt-3.5-turbo-0613,gpt-3.5-turbo-16k,gpt-3.5-turbo-16k-0613";
+  let models = "gpt-3.5-turbo,gpt-3.5-turbo-0301,gpt-3.5-turbo-0613";
   let apiModels = parseKeys(models as string);
   let rmodel =loadBalancer(apiModels);
   let apiHost = OPENAI_API_HOST;
