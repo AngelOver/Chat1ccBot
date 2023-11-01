@@ -21,10 +21,41 @@ const handler = async (req: Request): Promise<Response> => {
       return  response;
     }
 
-
-    const data = (await req.json());
-
-
+    let data = (await req.json());
+    console.log(data);
+    console.log(data.messages.length);
+    let length = data.messages.length;
+    let msg = [];
+    if( data.messages[0].role == 'system' ){
+      data.messages[0].content = 'You are ChatGPT, a large language model trained by OpenAI.Knowledge cutoff: 2021-09,Current model: gpt-4'+data.messages[0].content;
+    }
+     if( data.messages[length-1].content.length>2000){
+       console.log("超过2000字");
+       let msg2 = []
+       msg2.push(data.messages[length-1]);
+       data.messages= msg2;
+     }
+    if (length > 3) {
+      const lastThreeMessages = data.messages.slice(length - 3, length);
+      // 保留第一条消息并与最后三条合并
+      data.messages = [data.messages[0], ...lastThreeMessages];
+    } else {
+      data.messages = data.messages;
+    }
+    console.log(data.messages);
+    let totalLength = 0;
+    for (let i = 0; i < data.messages.length; i++) {
+      totalLength += data.messages[i].content.length;
+    }
+    if(totalLength>3500){
+        console.log("超过3500字");
+        let msg2 = []
+      msg2.push(data.messages[length-1]);
+      data.messages= msg2;
+    }
+    console.log('数据改造');
+    console.log(data.messages);
+    //如果 data.messages[0].role == 'role' 则不用审核
 
     // encoding.free();
     let stream = null;
