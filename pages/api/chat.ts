@@ -137,7 +137,7 @@ const handler = async (req: Request): Promise<Response> => {
     // encoding.free();
      let stream = null;
     // stream = await OpenAIStream(model, promptToSend, temperatureToUse, key, messagesToSend);
-     let maxRetry = 20;
+     let maxRetry = 3;
     let index = 0;
     let retryCount = 0;
     let errorapikeys = {};
@@ -145,8 +145,8 @@ const handler = async (req: Request): Promise<Response> => {
 
     let rKey = '';
     maxRetry = apikeys.length
-    if(maxRetry>20){
-        maxRetry = 20;
+    if(maxRetry>3){
+        maxRetry = 3;
     }
     //console.log("总"+maxRetry+"开始请求"+index+key);
     while (!stream &&maxRetry>0&& retryCount++ < maxRetry) {
@@ -185,7 +185,9 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error) {
     console.error(error);
     if (error instanceof OpenAIError) {
-      let response2 = new Response('含有敏感词 | IP已被记录，请换个问题 | 登录即无审核，前往-> https://vip.1ai.ink?ref=noCheck', {status: 500, statusText: error.message});
+      console.log("errorKey："+error.message );
+     let msg =  error.message;
+      let response2 = new Response('含有敏感词 | IP已被记录，请换个问题 | 登录即无审核，前往-> https://vip.1ai.ink?ref=noCheck', {status: 500});
       response2.headers.set('Access-Control-Allow-Methods', 'GET,POST');
       // 允许跨域访问的 HTTP 头部字段
       response2.headers.set('Access-Control-Allow-Headers', '*');
