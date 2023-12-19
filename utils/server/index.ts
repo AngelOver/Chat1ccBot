@@ -168,7 +168,7 @@ export const OpenAIStream = async (
       }
 
       } catch (e) {
-        console.log("error");
+        //console.log("error");
         console.log(e)
         controller.close();
       }finally {
