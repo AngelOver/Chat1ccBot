@@ -139,16 +139,19 @@ export const OpenAIStream = async (
 
   const stream = new ReadableStream({
     async start(controller) {
+
+      try {
       const onParse = (event: ParsedEvent | ReconnectInterval) => {
         if (event.type === 'event') {
           const data = event.data;
 
           try {
-            const json = JSON.parse(data);
-            if (json.choices[0].finish_reason != null) {
-              controller.close();
-              return;
+
+            if(data.includes("[DONE]")){
+                controller.close();
+                return;
             }
+            const json = JSON.parse(data);
             const text = json.choices[0].delta.content;
             const queue = encoder.encode(text);
             controller.enqueue(queue);
@@ -163,6 +166,17 @@ export const OpenAIStream = async (
       for await (const chunk of res.body as any) {
         parser.feed(decoder.decode(chunk));
       }
+
+      } catch (e) {
+        console.log("error");
+        console.log(e)
+        controller.close();
+      }finally {
+        controller.close()
+      }
+
+
+
     },
   });
 
