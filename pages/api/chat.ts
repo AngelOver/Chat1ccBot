@@ -145,14 +145,14 @@ const handler = async (req: Request): Promise<Response> => {
 
     let rKey = '';
     maxRetry = apikeys.length
-    if(maxRetry>3){
-        maxRetry = 3;
+    if(maxRetry>2){
+        maxRetry = 2;
     }
     //console.log("总"+maxRetry+"开始请求"+index+key);
     while (!stream &&maxRetry>0&& retryCount++ < maxRetry) {
         index++
         rKey =loadBalancer(apikeys);
-        if(index>3){
+        if(index>1){
           console.log("总"+maxRetry+"尝试"+index+rKey+msg);
         }
         try {
@@ -195,7 +195,7 @@ const handler = async (req: Request): Promise<Response> => {
       response2.headers.set('Access-Control-Allow-Origin', '*');
       return response2;
     } else {
-      let response3 = new Response('请求过于频繁，等待10秒再试...', { status: 500 });
+      let response3 = new Response('请求过于频繁，等待10秒再试...（报错时，前往稳定服-> https://vip.1ai.ink?ref=1chatError）', { status: 500 });
 
       response3.headers.set('Access-Control-Allow-Methods', 'GET,POST');
       // 允许跨域访问的 HTTP 头部字段
