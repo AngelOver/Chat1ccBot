@@ -145,6 +145,7 @@ export const OpenAIStream = async (
         if (event.type === 'event') {
           const data = event.data;
 
+          
           try {
 
             if(data.includes("[DONE]")){
